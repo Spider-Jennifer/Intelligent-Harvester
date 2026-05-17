@@ -1,0 +1,10 @@
+# 多类别检测数据集：苹果 + 人
+path: ./multi_dataset
+train: images/train
+val: images/val
+
+# 类别信息
+nc: 2
+names: 
+  0: apple
+  1: people

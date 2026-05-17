@@ -1,0 +1,6 @@
+# 快速苹果训练配置
+train: c:\Users\李晨鑫\Desktop\YOLO-v8-app\quick_train\images
+val: c:\Users\李晨鑫\Desktop\YOLO-v8-app\quick_train\images
+
+nc: 1
+names: ['apple']

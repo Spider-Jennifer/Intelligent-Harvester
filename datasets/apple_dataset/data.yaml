@@ -1,0 +1,17 @@
+# 苹果检测数据集配置
+# 完整数据集存放于 data/apple_dataset/（不纳入Git）
+# 此文件为示例配置，训练时请根据实际路径修改
+
+names:
+- apple
+nc: 1
+
+# 使用 data/ 目录中的完整数据集（不纳入版本控制）
+path: ../data/apple_dataset
+train: images/train
+val: images/val
+
+# 仅使用示例数据时，改用以下路径：
+# path: ../datasets/apple_dataset/samples
+# train: images
+# val: images

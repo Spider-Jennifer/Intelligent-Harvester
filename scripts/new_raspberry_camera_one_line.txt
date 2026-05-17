@@ -1,0 +1,47 @@
+# 树莓派新版本摄像头修复 - 单行命令
+# 复制以下整行到树莓派SSH中执行：
+
+sudo raspi-config nonint do_camera 0 && echo "摄像头接口已启用" && sudo sh -c 'echo "start_x=1" >> /boot/config.txt && echo "gpu_mem=128" >> /boot/config.txt' && echo "配置文件已更新，请重启: sudo reboot"
+
+# 或者分步执行：
+
+# 1. 启用摄像头接口
+sudo raspi-config nonint do_camera 0
+
+# 2. 检查状态 (0=已启用, 1=未启用)
+sudo raspi-config nonint get_camera
+
+# 3. 添加摄像头配置
+sudo sh -c 'echo "start_x=1" >> /boot/config.txt'
+sudo sh -c 'echo "gpu_mem=128" >> /boot/config.txt'
+
+# 4. 重启树莓派
+sudo reboot
+
+# 重启后测试摄像头：
+
+# 测试1: libcamera
+libcamera-hello -t 0
+
+# 测试2: Python摄像头
+python3 -c "
+import cv2
+import time
+print('测试摄像头...')
+for i in [0, 1]:
+    cap = cv2.VideoCapture(i)
+    time.sleep(1)
+    if cap.isOpened():
+        print(f'摄像头 {i}: 已打开')
+        ret, frame = cap.read()
+        if ret:
+            print(f'  读取成功: {frame.shape}')
+        cap.release()
+        break
+"
+
+# 如果libcamera-hello命令不存在，安装：
+sudo apt update && sudo apt install -y libcamera-apps
+
+# 如果OpenCV未安装：
+pip3 install opencv-python

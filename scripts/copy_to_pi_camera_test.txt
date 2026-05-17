@@ -1,0 +1,114 @@
+# 将以下Python代码直接复制到树莓派SSH中执行
+# 不需要传输文件，直接粘贴运行
+
+python3 << 'EOF'
+import cv2
+import time
+import subprocess
+import os
+
+print("=" * 60)
+print("树莓派摄像头直接测试")
+print("=" * 60)
+print()
+
+# 1. 检查摄像头状态
+print("1. 检查摄像头状态...")
+try:
+    result = subprocess.run(["vcgencmd", "get_camera"], capture_output=True, text=True)
+    print(f"   摄像头模块: {result.stdout.strip()}")
+except:
+    print("   摄像头模块: 无法检测")
+
+# 2. 检查摄像头设备
+print("\n2. 检查摄像头设备...")
+try:
+    result = subprocess.run(["ls", "/dev/video*"], capture_output=True, text=True, shell=True)
+    if result.stdout:
+        print(f"   找到设备: {result.stdout.strip()}")
+    else:
+        print("   未找到摄像头设备")
+except:
+    print("   设备检查失败")
+
+# 3. 测试libcamera
+print("\n3. 测试libcamera...")
+try:
+    result = subprocess.run(["timeout", "2", "libcamera-hello", "-t", "0"], 
+                          capture_output=True, text=True)
+    if result.returncode == 0:
+        print("   ✓ libcamera工作正常")
+    else:
+        print("   ✗ libcamera测试失败")
+except:
+    print("   libcamera测试异常")
+
+# 4. Python摄像头测试
+print("\n4. Python OpenCV摄像头测试...")
+try:
+    import cv2
+    print("   ✓ OpenCV已安装")
+    
+    success = False
+    for camera_id in [0, 1, 2]:
+        print(f"   尝试摄像头索引 {camera_id}...")
+        try:
+            cap = cv2.VideoCapture(camera_id)
+            if cap.isOpened():
+                print(f"     ✓ 摄像头 {camera_id} 已打开")
+                time.sleep(0.5)
+                ret, frame = cap.read()
+                if ret:
+                    print(f"     ✓ 读取成功: {frame.shape}")
+                    success = True
+                    cap.release()
+                    break
+                else:
+                    print(f"     ✗ 读取失败")
+                    cap.release()
+            else:
+                print(f"     ✗ 无法打开")
+        except Exception as e:
+            print(f"     ✗ 错误: {str(e)[:50]}...")
+    
+    if success:
+        print("\n   ✓ Python摄像头测试通过")
+    else:
+        print("\n   ✗ Python摄像头测试失败")
+        
+except ImportError:
+    print("   ✗ OpenCV未安装")
+    print("     安装命令: sudo apt install python3-opencv")
+
+# 5. 修复建议
+print("\n5. 修复建议:")
+print("   -" * 30)
+
+# 检查摄像头是否启用
+try:
+    result = subprocess.run(["raspi-config", "nonint", "get_camera"], 
+                          capture_output=True, text=True)
+    if result.stdout.strip() == "1":
+        print("   ⚠ 摄像头接口未启用")
+        print("     启用命令: sudo raspi-config nonint do_camera 0")
+except:
+    pass
+
+print("\n" + "=" * 60)
+print("测试完成")
+print("=" * 60)
+
+print("\n快速修复命令:")
+print("sudo raspi-config nonint do_camera 0")
+print("echo 'start_x=1' | sudo tee -a /boot/config.txt")
+print("echo 'gpu_mem=128' | sudo tee -a /boot/config.txt")
+print("sudo apt update && sudo apt install -y libcamera-apps python3-opencv")
+print("sudo reboot")
+EOF
+
+# 执行完上面的代码后，如果摄像头测试失败，运行以下修复命令：
+# sudo raspi-config nonint do_camera 0
+# echo 'start_x=1' | sudo tee -a /boot/config.txt
+# echo 'gpu_mem=128' | sudo tee -a /boot/config.txt
+# sudo apt update && sudo apt install -y libcamera-apps python3-opencv
+# sudo reboot

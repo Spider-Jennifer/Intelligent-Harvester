@@ -1,0 +1,21 @@
+# 新版本树莓派摄像头修复 - 单行命令
+# 复制以下整行命令到树莓派SSH中执行：
+
+sudo bash -c "
+echo '开始修复新版本树莓派摄像头...'
+echo '1. 启用摄像头接口...'
+raspi-config nonint do_camera 0
+echo '2. 配置/boot/config.txt...'
+CONFIG='/boot/config.txt'
+sed -i '/^start_x=/d' \$CONFIG
+sed -i '/^gpu_mem=/d' \$CONFIG
+echo 'start_x=1' >> \$CONFIG
+echo 'gpu_mem=128' >> \$CONFIG
+echo '3. 安装必要软件...'
+apt update && apt install -y libcamera-apps python3-opencv
+echo '4. 测试摄像头...'
+echo '请等待3秒测试...'
+timeout 3 libcamera-hello -t 0 2>/dev/null && echo '✓ libcamera测试成功' || echo '⚠ libcamera测试失败'
+echo '5. 重启后生效...'
+echo '修复完成！请运行: sudo reboot 重启树莓派'
+"

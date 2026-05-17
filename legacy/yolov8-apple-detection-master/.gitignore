@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+.venv/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# YOLOv8 training artifacts
+runs/
+*.torchscript
+*.engine
+
+# Cache files
+*.cache
+
+# Temporary results
+test_results/
+*.csv
+*.log
+
+# Large binary files (keep our model weights)
+# Don't include *.pt here as we want to keep our trained models
+
+# Windows
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.obj
+*.lib
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Temporary files
+*.tmp
+*.temp

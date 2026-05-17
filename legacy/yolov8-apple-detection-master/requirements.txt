@@ -1,0 +1,32 @@
+# YOLOv8苹果检测项目依赖
+
+# 核心依赖
+ultralytics>=8.0.0
+opencv-python>=4.7.0
+numpy>=1.22.0
+
+# 数据处理
+pandas>=1.4.0
+matplotlib>=3.5.0
+scikit-image>=0.19.0
+
+# 深度学习框架
+torch>=1.13.0
+torchvision>=0.14.0
+
+# 可选依赖（提升性能）
+pycocotools>=2.0.6  # COCO格式数据处理
+tensorboard>=2.11.0  # 训练可视化
+tqdm>=4.64.0        # 进度条显示
+
+# Windows系统可能需要的额外依赖
+pywin32>=305        # Windows系统支持
+
+# 推理优化（可选）
+onnx>=1.13.0        # ONNX导出
+onnxruntime>=1.14.0 # ONNX推理加速
+
+# 开发依赖（可选）
+flake8>=4.0.0       # 代码风格检查
+black>=22.0.0       # 代码格式化
+pytest>=7.0.0       # 单元测试

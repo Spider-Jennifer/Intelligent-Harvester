@@ -1,0 +1,7 @@
+# 苹果检测数据集配置文件 - 使用绝对路径
+names:
+- apple
+nc: 1
+path: c:/Users/李晨鑫/Desktop/yolov8/YOLO-v8-app/dataset
+train: images/train
+val: images/val

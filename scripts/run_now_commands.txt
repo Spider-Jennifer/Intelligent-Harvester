@@ -1,0 +1,22 @@
+# RUN NOW COMMANDS
+# Copy and paste these commands in SSH terminal
+
+# 1. Go to the directory
+cd ~/yolov8_remote
+
+# 2. Check if packages are installed
+python3 -c "import cv2; print('OpenCV OK')" || echo "OpenCV missing"
+python3 -c "import ultralytics; print('Ultralytics OK')" || echo "Ultralytics missing"
+
+# 3. If missing, install minimal packages
+# For OpenCV:
+sudo apt-get install -y python3-opencv
+
+# For Ultralytics:
+pip3 install ultralytics numpy
+
+# 4. Start detection
+python3 raspberry_client_ultra_light.py
+
+# Alternative: One-line command to check and run
+# cd ~/yolov8_remote && python3 -c "import cv2, ultralytics" 2>/dev/null || (sudo apt-get install -y python3-opencv && pip3 install ultralytics numpy) && python3 raspberry_client_ultra_light.py
