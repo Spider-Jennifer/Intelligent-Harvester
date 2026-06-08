@@ -93,7 +93,7 @@
 ### 安装依赖
 
 ```bash
-pip install ultralytics opencv-python numpy pillow matplotlib
+pip install ultralytics opencv-python numpy pillow matplotlib streamlit
 ```
 
 ### 准备数据集
@@ -145,6 +145,18 @@ python vision/camera/fast_camera_app.py
 # 树莓派摄像头
 python vision/camera/raspberry_pi_camera.py
 ```
+
+### Web 应用（推荐）
+
+启动浏览器端苹果检测页面，支持图片上传和摄像头拍照：
+
+```bash
+streamlit run app.py
+```
+
+启动后浏览器访问：**http://localhost:8501**
+
+> 首次启动如卡在邮箱输入提示，Ctrl+C 终止后重新运行即可（项目已配置跳过该提示）。
 
 ### 环境检查
 
